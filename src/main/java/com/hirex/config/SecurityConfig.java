@@ -80,8 +80,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
-//            "http://localhost:3000"
-                "https://backend-7aoi.onrender.com"
+            "http://localhost:3000"
+            //     "https://backend-7aoi.onrender.com"
+            // https://frontend-7mm6.onrender.com//
 
         ));
 
