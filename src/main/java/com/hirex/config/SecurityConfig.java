@@ -83,7 +83,8 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
             "http://localhost:3000",
-          "https://frontend-hirex.onrender.com"
+          "https://frontend-hirex.onrender.com",
+             "http://localhost:4173"
 
         ));
 
