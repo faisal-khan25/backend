@@ -5,6 +5,7 @@ import com.hirex.dto.JobDto.JobResponse;
 import com.hirex.service.JobService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.security.Principal;
 import java.util.List;
