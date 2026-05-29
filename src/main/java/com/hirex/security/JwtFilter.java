@@ -26,15 +26,44 @@ public class JwtFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
-            throws ServletException, IOException {
-//
-//        if (req.getMethod().equals("OPTIONS")) {
-//            chain.doFilter(req, res);
-//            return;
-//        }
+//     @Override
+//     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+//             throws ServletException, IOException {
+// //
+// //        if (req.getMethod().equals("OPTIONS")) {
+// //            chain.doFilter(req, res);
+// //            return;
+// //        }
 
+
+//         String header = req.getHeader("Authorization");
+
+//         if (header == null || !header.startsWith("Bearer ")) {
+//             chain.doFilter(req, res);
+//             return;
+//         }
+
+//         String token = header.substring(7);
+//         String email = jwtUtil.getEmail(token);
+
+//         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+//             if (jwtUtil.isValid(token, userDetails)) {
+//                 UsernamePasswordAuthenticationToken auth =
+//                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+//                 SecurityContextHolder.getContext().setAuthentication(auth);
+//             }
+//         }
+
+//         chain.doFilter(req, res);
+//     }
+// }
+    @Override
+protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+        throws ServletException, IOException {
+
+    try {
 
         String header = req.getHeader("Authorization");
 
@@ -44,18 +73,33 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String token = header.substring(7);
+
         String email = jwtUtil.getEmail(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
             if (jwtUtil.isValid(token, userDetails)) {
+
                 UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
 
+        chain.doFilter(req, res);
+
+    } catch (Exception e) {
+        // 🔥 IMPORTANT: prevent silent failure
+        SecurityContextHolder.clearContext();
         chain.doFilter(req, res);
     }
 }
