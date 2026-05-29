@@ -46,8 +46,19 @@ public class JobController {
         return ResponseEntity.ok("Job removed");
     }
 
+    // @GetMapping("/manager/jobs")
+    // public ResponseEntity<List<JobResponse>> myJobs(Principal principal) {
+    //     return ResponseEntity.ok(jobService.getManagerJobs(principal.getName()));
+    // }
     @GetMapping("/manager/jobs")
-    public ResponseEntity<List<JobResponse>> myJobs(Principal principal) {
-        return ResponseEntity.ok(jobService.getManagerJobs(principal.getName()));
+public ResponseEntity<List<JobResponse>> myJobs(Authentication authentication) {
+
+    if (authentication == null) {
+        return ResponseEntity.status(401).build();
     }
+
+    return ResponseEntity.ok(
+        jobService.getManagerJobs(authentication.getName())
+    );
+}
 }
