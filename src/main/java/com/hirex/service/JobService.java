@@ -83,11 +83,19 @@ public class JobService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    // public List<JobResponse> getManagerJobs(String managerEmail) {
+    //     User manager = userRepo.findByEmail(managerEmail).orElseThrow();
+    //     Company company = companyRepo.findByManager(manager).orElseThrow();
+    //     return jobRepo.findByCompany(company).stream().map(this::toResponse).collect(Collectors.toList());
+    // }
     public List<JobResponse> getManagerJobs(String managerEmail) {
-        User manager = userRepo.findByEmail(managerEmail).orElseThrow();
-        Company company = companyRepo.findByManager(manager).orElseThrow();
-        return jobRepo.findByCompany(company).stream().map(this::toResponse).collect(Collectors.toList());
-    }
+    User manager = userRepo.findByEmail(managerEmail).orElseThrow();
+    Company company = companyRepo.findByManager(manager).orElseThrow();
+    return jobRepo.findByCompany(company).stream()
+            .filter(Job::isActive)          // ← add this filter
+            .map(this::toResponse)
+            .collect(Collectors.toList());
+}
 
     private JobResponse toResponse(Job job) {
         JobResponse r = new JobResponse();
