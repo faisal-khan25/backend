@@ -26,6 +26,7 @@ public class Job {
     private String location;
     private String jobType;
     private boolean active;
+private boolean active = true; 
 
     @Column(name = "posted_at")
     private LocalDateTime postedAt;
