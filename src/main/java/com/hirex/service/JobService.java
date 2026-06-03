@@ -39,6 +39,7 @@ public class JobService {
         job.setLocation(req.getLocation());
         job.setJobType(req.getJobType());
         job.setCompany(company);
+        job.setActive(true); 
 
         return toResponse(jobRepo.save(job));
     }
