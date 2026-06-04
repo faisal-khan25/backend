@@ -21,7 +21,7 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String adminEmail = "admin@hirex.com";
+        String adminEmail = "admin@gmail.com";
         if (!userRepo.existsByEmail(adminEmail)) {
             User admin = new User();
             admin.setName("Admin");
