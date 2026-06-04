@@ -19,4 +19,22 @@ public class AdminController {
     public ResponseEntity<DashboardStats> dashboard() {
         return ResponseEntity.ok(adminService.getDashboardStats());
     }
+    @GetMapping("/users")
+    public ResponseEntity<List<Map<String, Object>>> allUsers() {
+        return ResponseEntity.ok(adminService.getAllUsers());
+    }
+
+    // ── Jobs ─────────────────────────────────────────────────────
+    @GetMapping("/jobs")
+    public ResponseEntity<List<Map<String, Object>>> allJobs() {
+        return ResponseEntity.ok(adminService.getAllJobs());
+    }
+
+    // ── Applications ─────────────────────────────────────────────
+    @GetMapping("/applications")
+    public ResponseEntity<List<Map<String, Object>>> allApplications() {
+        return ResponseEntity.ok(adminService.getAllApplications());
+    }
 }
+
+
